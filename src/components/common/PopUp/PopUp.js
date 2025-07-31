@@ -6,15 +6,17 @@ const PopUp = ({show, handleClose, handleConfirm}) => {
   return (
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Potwierdzenie</Modal.Title>
+          <Modal.Title>Are you sure?</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Czy na pewno chcesz usunąć ten post?</Modal.Body>
+        <Modal.Body>
+            This operation will completely remove this post from the blog. Are you sure you want to do that?
+        </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Anuluj
+          <Button variant="primary" onClick={handleClose}>
+            Cancel
           </Button>
-          <Button variant="primary" onClick={handleConfirm}>
-            Usuń
+          <Button variant="danger" onClick={handleConfirm}>
+            Remove
           </Button>
         </Modal.Footer>
       </Modal>
