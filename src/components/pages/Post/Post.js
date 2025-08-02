@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getPostById, removePost } from '../../../redux/postsRedux';
-import { Container, Row, Button } from 'react-bootstrap';
+import { Container, Row, Button, Col } from 'react-bootstrap';
 import PopUp from '../../common/PopUp/PopUp';
 
 const Post = () => {
@@ -24,7 +24,8 @@ const Post = () => {
         console.log(popupShow);
     }
 
-    return (
+    if(!post) navigate('/');
+    else return (
         <>
             <PopUp 
                 show={popupShow}
@@ -34,19 +35,24 @@ const Post = () => {
                     dispatch(removePost(post.id));
                     navigate('/');
                 }}/>
-            <Container className='mb-5'>
-                <Row className=''>
-                    <h2 className='col-8'>{post.title}</h2>
-                    <div className="col-4 d-flex justify-content-center gap-2 mt-3">
+            <Container className="mb-5">
+                <Row className="justify-content-center">
+                    <Col xs={12} lg={9}>
+                    <div className="d-flex justify-content-between align-items-center mb-4">
+                        <h2 className="mb-0">{post.title}</h2>
+                        <div className="d-flex gap-2">
                         <Button variant="outline-info">Edit</Button>
                         <Button variant="outline-danger" onClick={handleRemove}>
                             Remove
                         </Button>
+                        </div>
                     </div>
+
+                    <p><strong>Author:</strong> {post.author}</p>
+                    <p><strong>Published:</strong> {post.publishedDate}</p>
+                    <p>{post.content}</p>
+                    </Col>
                 </Row>
-                <p><strong>Author:</strong> {post.author}</p>
-                <p><strong>Published:</strong> {post.publishedDate}</p>
-                <p>{post.content}</p>
             </Container>
         </>
     );
