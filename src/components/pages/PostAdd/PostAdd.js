@@ -1,8 +1,8 @@
-import FormPost from "../../features/FormPost/FormPost";
+import AddPostForm from "../../features/AddPostForm/AddPostForm";
 
 const PostAdd = props => {
 
-    return <FormPost/>
+    return <AddPostForm/>
 }
 
 export default PostAdd

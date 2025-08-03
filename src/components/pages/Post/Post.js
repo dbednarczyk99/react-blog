@@ -11,8 +11,8 @@ const Post = () => {
     console.log('typeof postId: ', typeof postId);
 
     const post = useSelector(state => getPostById(state, postId));
-    console.log("post.id: ",post.id);
-    console.log('typeof post.id:', typeof post.id);
+    //console.log("post.id: ",post.id);
+    //console.log('typeof post.id:', typeof post.id);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -22,6 +22,10 @@ const Post = () => {
         console.log('Remove clicked')
         popupShowChange(true);
         console.log(popupShow);
+    }
+
+    const handleEdit = () => {
+        navigate(`/post/edit/${postId}`)
     }
 
     if(!post) navigate('/');
@@ -41,7 +45,9 @@ const Post = () => {
                     <div className="d-flex justify-content-between align-items-center mb-4">
                         <h2 className="mb-0">{post.title}</h2>
                         <div className="d-flex gap-2">
-                        <Button variant="outline-info">Edit</Button>
+                        <Button variant="outline-info" onClick={handleEdit}>
+                            Edit
+                        </Button>
                         <Button variant="outline-danger" onClick={handleRemove}>
                             Remove
                         </Button>

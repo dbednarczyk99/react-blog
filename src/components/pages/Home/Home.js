@@ -7,7 +7,12 @@ const Home = () => {
   //console.log(typeof posts[0].id);
 
   return (
-    <Container> 
+    <Container>
+      <Container className="text-end">
+          <Link to={`/post/add`}>
+            <Button variant="primary">Add new post</Button>
+          </Link>
+        </Container>
       <Row>
         {posts.map( post => (
           <Col xs={12} className="p-0" md={6} lg={4} key={post.id}>
@@ -25,11 +30,6 @@ const Home = () => {
           </Col>
         ))}
       </Row>
-          <Container className="text-center">
-            <Link to={`/post/add`}>
-                <Button variant="primary">Add new post</Button>
-              </Link>
-          </Container>
     </Container>
   );
 };

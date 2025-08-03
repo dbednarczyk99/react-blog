@@ -1,28 +1,27 @@
 import { useState } from 'react';
 import { Button, Form, Row, Col } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { addPost } from '../../../redux/postsRedux';
+import { Link } from 'react-router-dom';
 
-const FormPost = () => {
-    const [title, setTitle] = useState('');
-    const [shortDescription, setShortDescription] = useState('');
-    const [content, setContent] = useState('');
-    const [author, setAuthor] = useState('');
+const FormPost = ({action, actionText, ...props }) => {
+    const [title, setTitle] = useState( props.title || '' );
+    const [shortDescription, setShortDescription] = useState( props.shortDescription || '');
+    const [content, setContent] = useState( props.content || '' );
+    const [author, setAuthor] = useState( props.author || '' );
     
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-
     const handleSubmit = e => {
         e.preventDefault();
-        dispatch(addPost({ title, shortDescription, content, author }));
+        action({ title, shortDescription, content, author });
         setTitle('');
         setShortDescription('');
         setContent('');
         setAuthor('');
-        navigate('/');
     };
 
+    //console.log('In FormPost: ', props.id);
+
+    let returnPath = '';
+    if(actionText === 'Add post') returnPath = '/';
+    else if(actionText === 'Edit post') returnPath = `/post/${props.id}`;
 
 	return (
 
@@ -45,7 +44,10 @@ const FormPost = () => {
                         <Form.Label> Author: </Form.Label>
                         <Form.Control type='text' value={author} onChange={e => setAuthor(e.target.value)} />
                     </Form.Group>
-                    <Button type='submit'>Add post</Button>
+                    <Button type='submit'>{actionText}</Button>
+                    <Link to={returnPath}>
+                        <Button className='mx-2' variant="secondary">Return</Button>
+                    </Link>
                 </Form>
             </Col>
         </Row>

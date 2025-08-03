@@ -5,7 +5,7 @@ import Header from "./components/views/Header/Header";
 import Home from "./components/pages/Home/Home";
 import Post from "./components/pages/Post/Post";
 import PostAdd from "./components/pages/PostAdd/PostAdd";
-import PostEdit from "./components/features/PostEdit/PostEdit";
+import PostEdit from "./components/pages/PostEdit/PostEdit";
 import NotFound from "./components/pages/NotFound/NotFound";
 import About from "./components/pages/About/About";
 
