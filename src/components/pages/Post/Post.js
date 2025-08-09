@@ -4,11 +4,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getPostById, removePost } from '../../../redux/postsRedux';
 import { Container, Row, Button, Col } from 'react-bootstrap';
 import PopUp from '../../common/PopUp/PopUp';
+import dateToStr from '../../../utils/dateToStr';
 
 const Post = () => {
     const { postId } = useParams();
-    console.log('postId: ', postId);
-    console.log('typeof postId: ', typeof postId);
+    //console.log('postId: ', postId);
+    //console.log('typeof postId: ', typeof postId);
 
     const post = useSelector(state => getPostById(state, postId));
     //console.log("post.id: ",post.id);
@@ -55,8 +56,8 @@ const Post = () => {
                     </div>
 
                     <p><strong>Author:</strong> {post.author}</p>
-                    <p><strong>Published:</strong> {post.publishedDate}</p>
-                    <p>{post.content}</p>
+                    <p><strong>Published:</strong> {dateToStr(post.publishedDate)}</p>
+                    <p dangerouslySetInnerHTML={{ __html: post.content }}></p>
                     </Col>
                 </Row>
             </Container>

@@ -27,11 +27,11 @@ const postsReducer = (statePart = [], action) => {
         ...statePart, ...action.payload
       };
     case ADD_POST:
-      const originDate = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
-      return [...statePart, { ...action.payload, id: shortid(), publishedDate: originDate}]
+      const originDate = `${current.getMonth()+1<10 ? '0' : ''}${current.getMonth()+1}-${current.getDate()<10 ? '0' : ''}${current.getDate()}-${current.getFullYear()}`;
+      return [...statePart, { ...action.payload, id: shortid(), originDate: originDate}]
     case EDIT_POST:
-      const editDate = `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`;
-      return statePart.map(post => (post.id === action.payload.id ? { ...post, ...action.payload, editDate: editDate } : post ));
+      const editDate = `${current.getMonth()+1<10 ? '0' : ''}${current.getMonth()+1}-${current.getDate()<10 ? '0' : ''}${current.getDate()}-${current.getFullYear()}`;
+      return statePart.map(post => (post.id === action.payload.id ? { ...post, ...action.payload, lastEditDate: editDate } : post ));
     default:
       return statePart;
   };

@@ -1,11 +1,13 @@
 import { Row, Col, Button, Container, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import dateToStr from '../../../utils/dateToStr';
 
 const Home = () => {
   const posts = useSelector((state) => state.posts);
   //console.log(typeof posts[0].id);
-
+  //const date = new Date();
+  //console.log(date.getMonth());
   return (
     <Container>
       <Container className="text-end">
@@ -20,7 +22,7 @@ const Home = () => {
               <Card.Body>
                 <Card.Title>{post.title}</Card.Title>
                 <Card.Subtitle>Author: {post.author}</Card.Subtitle>
-                <Card.Text>Published: {post.publishedDate}</Card.Text>
+                <Card.Text>Published: {dateToStr(post.publishedDate)}</Card.Text>
                 <Card.Text>{post.shortDescription}</Card.Text>             
                 <Link to={`/post/${post.id}`}>
                   <Button variant="primary">Show more</Button>
