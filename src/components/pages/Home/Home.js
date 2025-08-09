@@ -6,8 +6,8 @@ import dateToStr from '../../../utils/dateToStr';
 const Home = () => {
   const posts = useSelector((state) => state.posts);
   //console.log(typeof posts[0].id);
-  //const date = new Date();
-  //console.log(date.getMonth());
+  const date = new Date();
+  console.log(date.getMonth());
   return (
     <Container>
       <Container className="text-end">

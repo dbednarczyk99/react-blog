@@ -5,6 +5,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useForm } from 'react-hook-form';
 
 const FormPost = ({action, actionText, ...props }) => {
     const [title, setTitle] = useState( props.title || '' );
@@ -12,15 +13,25 @@ const FormPost = ({action, actionText, ...props }) => {
     const [content, setContent] = useState( props.content || '' );
     const [author, setAuthor] = useState( props.author || '' );
     const [publishedDate, setPublishedDate] = useState( props.publishedDate ? new Date(props.publishedDate) : new Date() );
+
+    // validation
+    const [contentErr, setContentErr] = useState(false);
+    const [publishedDateErr, setPublishedDateErr] = useState(false);
+    const { register, handleSubmit: validate, formState: { errors } } = useForm();
     
     const handleSubmit = e => {
-        e.preventDefault();
-        action({ title, shortDescription, content, author });
-        setTitle('');
-        setShortDescription('');
-        setContent('');
-        setAuthor('');
+        setContentErr(!content);
+        setPublishedDateErr(!publishedDate);
+        if(content && publishedDate) {
+            action({ title, shortDescription, content, author, publishedDate });
+            setTitle('');
+            setShortDescription('');
+            setContent('');
+            setAuthor('');
+        }
     };
+
+    
 
     //console.log('In FormPost: ', props.id);
 
@@ -32,25 +43,46 @@ const FormPost = ({action, actionText, ...props }) => {
 
         <Row className="justify-content-center">
             <Col xs={12} lg={9}>
-                <Form className='w-100 mx-auto' onSubmit={handleSubmit}>
-                    <Form.Group className='mb-3'>
+                <Form className='w-100 mx-auto' onSubmit={validate(handleSubmit)}>
+                    <Form.Group className='mb-3' controlId='formBasicEmail'>
                         <Form.Label> Title: </Form.Label>
-                        <Form.Control type='text' value={title} onChange={e => setTitle(e.target.value)} />
+                        <Form.Control 
+                            {...register('title', {required: true, minLength: 3})}
+                            value={title}
+                            onChange={e => setTitle(e.target.value)}
+                            type='text' placeholder='Enter title'
+                        />
+                        {errors.title && <span className='d-block form-text text-danger mt-2'>This field is required. Title must be at least 3 characters long.</span>}
                     </Form.Group>
                     <Form.Group className='mb-3'>
                         <Form.Label> Short description: </Form.Label>
-                        <Form.Control type='text' value={shortDescription} onChange={e => setShortDescription(e.target.value)} />
+                        <Form.Control 
+                            {...register('shortDescription', {required: true, minLength: 20})}
+                            value={shortDescription}
+                            onChange={e => setShortDescription(e.target.value)}
+                            type='text' placeholder='Enter description'
+                        />
+                        {errors.shortDescription && <span className='d-block form-text text-danger mt-2'>This field is required. Short description must be at least 20 characters long.</span>}
                     </Form.Group>
                     <Form.Group className='mb-3'>
                         <Form.Label> Published date: </Form.Label>
                         <DatePicker selected={publishedDate} onChange={ date => setPublishedDate(date) }/>
+                        {publishedDateErr && <span className='d-block form-text text-danger mt-2'>This field is required.</span>}
                     </Form.Group>
                     <Form.Group className='mb-3'>
                         <Form.Label> Content: </Form.Label>
-                        <ReactQuill theme='snow' value={content} onChange={setContent} />                    </Form.Group>
+                        <ReactQuill theme='snow' value={content} onChange={setContent} />
+                        {contentErr && <span className='d-block form-text text-danger mt-2'>This field is required.</span>}
+                    </Form.Group>
                     <Form.Group className='mb-3'>
                         <Form.Label> Author: </Form.Label>
-                        <Form.Control type='text' value={author} onChange={e => setAuthor(e.target.value)} />
+                        <Form.Control 
+                            {...register('author', {required: true, minLength: 3})}
+                            value={author}
+                            onChange={e => setAuthor(e.target.value)}
+                            type='text' placeholder='Enter author'
+                        />
+                        {errors.author && <span className='d-block form-text text-danger mt-2'>This field is required. Author's name must be at least 3 characters long.</span>}
                     </Form.Group>
                     <Button type='submit'>{actionText}</Button>
                     <Link to={returnPath}>
