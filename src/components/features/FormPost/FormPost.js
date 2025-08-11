@@ -6,24 +6,29 @@ import 'react-quill/dist/quill.snow.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
+import shortid from 'shortid';
 
-const FormPost = ({action, actionText, ...props }) => {
+const FormPost = ({action, actionText, ...props}) => {
     const [title, setTitle] = useState( props.title || '' );
     const [shortDescription, setShortDescription] = useState( props.shortDescription || '');
     const [content, setContent] = useState( props.content || '' );
     const [author, setAuthor] = useState( props.author || '' );
     const [publishedDate, setPublishedDate] = useState( props.publishedDate ? new Date(props.publishedDate) : new Date() );
+    const [category, setCategory] = useState( props.categoryName || '' );
 
     // validation
     const [contentErr, setContentErr] = useState(false);
     const [publishedDateErr, setPublishedDateErr] = useState(false);
     const { register, handleSubmit: validate, formState: { errors } } = useForm();
-    
+
+    //console.log(category);
     const handleSubmit = e => {
         setContentErr(!content);
         setPublishedDateErr(!publishedDate);
         if(content && publishedDate) {
-            action({ title, shortDescription, content, author, publishedDate });
+            const id = props.id || shortid();
+            action({ id, title, shortDescription, content, publishedDate, author, category});
             setTitle('');
             setShortDescription('');
             setContent('');
@@ -31,9 +36,7 @@ const FormPost = ({action, actionText, ...props }) => {
         }
     };
 
-    
-
-    //console.log('In FormPost: ', props.id);
+    const categories = useSelector(state => state.categories);
 
     let returnPath = '';
     if(actionText === 'Add post') returnPath = '/';
@@ -53,6 +56,20 @@ const FormPost = ({action, actionText, ...props }) => {
                             type='text' placeholder='Enter title'
                         />
                         {errors.title && <span className='d-block form-text text-danger mt-2'>This field is required. Title must be at least 3 characters long.</span>}
+                    </Form.Group>
+                    <Form.Group className='mb-3' controlId='formBasicEmail'>
+                        <Form.Label> Category: </Form.Label>
+                        <Form.Select 
+                            {...register('category', {required: true})}
+                            value={category}
+                            onChange={e => {setCategory(e.target.value); console.log(e)}}
+                        >
+                            <option value=''>Select category</option>
+                            {categories.map(category => (
+                                <option key={category.id} value={category.name}>{category.name}</option>
+                            ))}
+                        </Form.Select>
+                        {errors.category && <span className='d-block form-text text-danger mt-2'>This field is required.</span>}
                     </Form.Group>
                     <Form.Group className='mb-3'>
                         <Form.Label> Short description: </Form.Label>

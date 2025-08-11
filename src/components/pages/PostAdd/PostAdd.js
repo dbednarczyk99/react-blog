@@ -1,6 +1,6 @@
 import AddPostForm from "../../features/AddPostForm/AddPostForm";
 
-const PostAdd = props => {
+const PostAdd = () => {
 
     return <AddPostForm/>
 }

@@ -6,8 +6,8 @@ import dateToStr from '../../../utils/dateToStr';
 const Home = () => {
   const posts = useSelector((state) => state.posts);
   //console.log(typeof posts[0].id);
-  const date = new Date();
-  console.log(date.getMonth());
+  //const date = new Date();
+  //console.log(date.getMonth());
   return (
     <Container>
       <Container className="text-end">
@@ -21,8 +21,9 @@ const Home = () => {
             <Card className="mb-4 shadow-sm m-md-2">
               <Card.Body>
                 <Card.Title>{post.title}</Card.Title>
-                <Card.Subtitle>Author: {post.author}</Card.Subtitle>
-                <Card.Text>Published: {dateToStr(post.publishedDate)}</Card.Text>
+                <Card.Text className='m-0'><b>Author: </b>{post.author}</Card.Text>
+                <Card.Text className='m-0'><b>Category: </b>{post.category}</Card.Text>
+                <Card.Text className='mb-2'><b>Published: </b>{dateToStr(post.publishedDate)}</Card.Text>
                 <Card.Text>{post.shortDescription}</Card.Text>             
                 <Link to={`/post/${post.id}`}>
                   <Button variant="primary">Show more</Button>

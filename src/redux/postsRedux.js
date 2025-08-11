@@ -1,7 +1,7 @@
-import shortid from "shortid";
 
 //selectors
 export const getPostById = (state, postId) => state.posts.find(post => post.id === postId);
+export const getPostByCategory = (state, categoryId) => state.posts.find(post => post.categoryId === categoryId);
 
 // actions
 const createActionName = actionName => `app/posts/${actionName}`;
@@ -28,7 +28,7 @@ const postsReducer = (statePart = [], action) => {
       };
     case ADD_POST:
       const originDate = `${current.getMonth()+1<10 ? '0' : ''}${current.getMonth()+1}-${current.getDate()<10 ? '0' : ''}${current.getDate()}-${current.getFullYear()}`;
-      return [...statePart, { ...action.payload, id: shortid(), originDate: originDate}]
+      return [...statePart, { ...action.payload, originDate: originDate}]
     case EDIT_POST:
       const editDate = `${current.getMonth()+1<10 ? '0' : ''}${current.getMonth()+1}-${current.getDate()<10 ? '0' : ''}${current.getDate()}-${current.getFullYear()}`;
       return statePart.map(post => (post.id === action.payload.id ? { ...post, ...action.payload, lastEditDate: editDate } : post ));
