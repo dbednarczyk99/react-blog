@@ -1,7 +1,8 @@
 
 //selectors
 export const getPostById = (state, postId) => state.posts.find(post => post.id === postId);
-export const getPostByCategory = (state, categoryId) => state.posts.find(post => post.categoryId === categoryId);
+export const getPostsByCategory = (state, categoryName) => state.posts.filter(post => post.category === categoryName);
+export const getCategoryById = (state, categoryId) => state.categories.find(category => category.id === categoryId);
 
 // actions
 const createActionName = actionName => `app/posts/${actionName}`;

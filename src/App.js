@@ -8,6 +8,8 @@ import PostAdd from "./components/pages/PostAdd/PostAdd";
 import PostEdit from "./components/pages/PostEdit/PostEdit";
 import NotFound from "./components/pages/NotFound/NotFound";
 import About from "./components/pages/About/About";
+import Categories from "./components/pages/Categories/Categories";
+import Category from "./components/pages/Category/Category";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
         <Route path="/post/edit/:postId" element={<PostEdit />} />
         <Route path="/about" element={<About />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/categories" element={<Categories />} />
+        <Route path="/category/:categoryId" element={<Category />} />
       </Routes>
       <Footer />
     </Container>
